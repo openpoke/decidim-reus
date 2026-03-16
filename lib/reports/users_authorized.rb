@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require "csv"
 
-csv = CSV.open("/tmp/verified_users_20230202_after_delete.csv", "wb") do |csv|
+CSV.open("/tmp/verified_users_20230202_after_delete.csv", "wb") do |csv|
   csv << %w(id email name nickname)
   Decidim::Authorization.find_each do |a|
     u = a.user

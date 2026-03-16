@@ -1,17 +1,18 @@
-namespace :dev do
+# frozen_string_literal: true
 
+namespace :dev do
   # bin/rails dev:load_data[staging]
   # bin/rails dev:load_data[production]
   desc "Import data from another evironment"
   task :load_data, [:src_environment] => :environment do |_t, args|
     src_environment = ActiveSupport::StringInquirer.new(args.src_environment)
 
-    raise "Can't run this task in the #{Rails.env} environment" if Rails.env.staging? || Rails.env.production?
+    raise "Can't run this task in the #{Rails.env} environment" if Rails.ENV["STAGING"].present? || Rails.env.production?
     raise "Invalid source environment: #{src_environment}" unless src_environment.staging? || src_environment.production?
     raise "DEV_DIR and DUMPS_DIR environment variables must be defined" if ENV["DEV_DIR"].blank? || ENV["DUMPS_DIR"].blank?
 
-    DEV_DIR = ENV["DEV_DIR"]
-    LOCAL_DUMP_DIR = "#{ENV["DUMPS_DIR"]}/decidim-reus"
+    DEV_DIR = ENV.fetch("DEV_DIR", nil)
+    LOCAL_DUMP_DIR = "#{ENV.fetch("DUMPS_DIR", nil)}/decidim-reus".freeze
 
     FileUtils.mkdir_p(LOCAL_DUMP_DIR)
 
@@ -51,12 +52,11 @@ namespace :dev do
   # bin/rails dev:convert_domains
   desc "Convert domains for development environment"
   task convert_domains: :environment do
-    raise "Can't run this task in the #{Rails.env} environment" if Rails.env.staging? || Rails.env.production?
+    raise "Can't run this task in the #{Rails.env} environment" if Rails.ENV["STAGING"].present? || Rails.env.production?
 
     puts "Converting domains..."
 
-    Decidim::Organization.update_all(host: "decidim.test")
+    Decidim::Organization.update_all(host: "decidim.test") # rubocop:disable Rails/SkipsModelValidations
     puts Decidim::Organization.pluck(:host)
   end
-
 end

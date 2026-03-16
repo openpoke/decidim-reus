@@ -1,11 +1,11 @@
+# frozen_string_literal: true
+
 module Decidim
   module RemovableAuthorizations
     module Admin
       class Permissions < Decidim::DefaultPermissions
         def permissions
-          if user.admin?
-            allow! if permission_action.subject == :authorizations
-          end
+          allow! if user.admin? && (permission_action.subject == :authorizations)
 
           permission_action
         end

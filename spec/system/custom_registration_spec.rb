@@ -11,7 +11,7 @@ def fill_registration_form
   fill_in :registration_user_password_confirmation, with: "sekritpass123"
 end
 
-describe "Registration", type: :system do
+describe "Registration" do
   let(:organization) { create(:organization) }
 
   before do
@@ -31,5 +31,4 @@ describe "Registration", type: :system do
       end
     end
   end
-
 end

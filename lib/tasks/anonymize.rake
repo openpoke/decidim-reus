@@ -4,7 +4,6 @@ require "progressbar"
 require "bcrypt"
 
 namespace :anonymize do
-
   def with_progress(collection, name:)
     total = collection.count
     progressbar = create_progress_bar(total: total)
@@ -20,7 +19,7 @@ namespace :anonymize do
 
   def create_progress_bar(total:)
     ProgressBar.create(
-      progress_mark:  " ",
+      progress_mark: " ",
       remainder_mark: "\u{FF65}",
       total: total,
       format: "%a %e %b\u{15E7}%i %p%% %t"
@@ -35,7 +34,7 @@ namespace :anonymize do
   end
 
   def default_organization
-    ::Decidim::Organization.first
+    Decidim::Organization.first
   end
 
   def default_password
@@ -43,7 +42,7 @@ namespace :anonymize do
   end
 
   def default_encrypted_password
-    ::BCrypt::Password.create(default_password, cost: 1).to_s
+    BCrypt::Password.create(default_password, cost: 1).to_s
   end
 
   def default_user_attributes
@@ -65,11 +64,11 @@ namespace :anonymize do
   end
 
   desc "Anonymizes a production dump."
-  task all: %i(users user_groups admins create_default_users update_organization_domain)
+  task all: [:users, :user_groups, :admins, :create_default_users, :update_organization_domain]
 
   task users: [:check, :environment] do
-    with_progress Decidim::User.where.not("email ~* ?", "@(reus\.cat|populate\.tools)"), name: "users" do |user|
-      user.update_columns(
+    with_progress Decidim::User.where.not("email ~* ?", "@(reus.cat|populate.tools)"), name: "users" do |user|
+      user.update(
         email: "user-#{user.id}@example.com",
         name: "Anonymized User #{user.id}",
         telephone_number_custom: "123456789",
@@ -87,14 +86,14 @@ namespace :anonymize do
       )
 
       Decidim::Authorization.where(user: user).find_each do |authorization|
-        authorization.update_columns(unique_id: authorization.id)
+        authorization.update(unique_id: authorization.id)
       end
     end
   end
 
   task user_groups: [:check, :environment] do
     with_progress Decidim::UserGroup.all, name: "user groups" do |user_group|
-      user_group.update_columns(
+      user_group.update(
         name: "User Group #{user_group.id}"
       )
     end
@@ -102,7 +101,7 @@ namespace :anonymize do
 
   task admins: [:check, :environment] do
     with_progress Decidim::System::Admin.all, name: "admins" do |admin|
-      admin.update_columns(
+      admin.update(
         email: "system-admin-#{admin.id}@example.com",
         encrypted_password: default_encrypted_password,
         reset_password_token: nil,
@@ -112,21 +111,21 @@ namespace :anonymize do
   end
 
   task create_default_users: [:check, :environment] do
-    ::Decidim::User.create!(default_user_attributes.merge(
-      email: "user@decidim.dev",
-      name: "Regular User",
-      nickname: "regular-user",
-      admin: false
-    ))
+    Decidim::User.create!(default_user_attributes.merge(
+                            email: "user@decidim.dev",
+                            name: "Regular User",
+                            nickname: "regular-user",
+                            admin: false
+                          ))
 
-    ::Decidim::User.create!(default_user_attributes.merge(
-      email: "admin@decidim.dev",
-      name: "Admin User",
-      nickname: "admin-user",
-      admin: true
-    ))
+    Decidim::User.create!(default_user_attributes.merge(
+                            email: "admin@decidim.dev",
+                            name: "Admin User",
+                            nickname: "admin-user",
+                            admin: true
+                          ))
 
-    ::Decidim::System::Admin.create!(
+    Decidim::System::Admin.create!(
       email: "system@decidim.dev",
       password: default_password,
       password_confirmation: default_password
@@ -135,9 +134,9 @@ namespace :anonymize do
 
   task update_organization_domain: [:check, :environment] do
     if Rails.env.development?
-      default_organization.update_attributes!(host: "localhost")
-    elsif Rails.env.staging?
-      default_organization.update_attributes!(host: "participatest.reus.cat")
+      default_organization.update!(host: "localhost")
+    elsif Rails.ENV["STAGING"].present?
+      default_organization.update!(host: "participatest.reus.cat")
     end
   end
 end

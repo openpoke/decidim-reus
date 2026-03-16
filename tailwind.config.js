@@ -5,7 +5,7 @@
 // https://docs.decidim.org/en/develop/customize/styles
 //
 
-const { inherit, current, transparent, white } = require("tailwindcss/colors")
+const { inherit, current, transparent, white, neutral } = require("tailwindcss/colors")
 
 const withOpacity =
   (variable) =>
@@ -15,10 +15,10 @@ const withOpacity =
       : `rgb(var(${variable}) / ${opacityValue})`;
 
 module.exports = {
-  // This content is generated automatically by decidim:webpacker:install task, it
+  // This content is generated automatically by decidim:shakapacker:install task, it
   // should not be updated manually.
   // The array must contain all the decidim modules active in the application
-  content: ['/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-api-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-core-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-comments-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-accountability-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-admin-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-assemblies-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-blogs-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-budgets-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-debates-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-forms-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-generators-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-meetings-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-pages-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-participatory_processes-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-proposals-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-sortitions-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-templates-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-surveys-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-system-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-verifications-0.28.0','/home/edu/.rvm/gems/ruby-3.1.1@decidim-reus/gems/decidim-dev-0.28.0','/home/edu/proyectos/populate-decidim/decidim-reus/decidim/decidim-module-processes_admin_stats','/home/edu/proyectos/populate-decidim/decidim-reus/decidim/decidim-module-removable_authorizations','.'].flatMap(directory => [
+  content: ['/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-core','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-comments','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-accountability','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-admin','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-api','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-assemblies','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-blogs','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-budgets','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-debates','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-forms','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-generators','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-meetings','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-pages','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-participatory_processes','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-proposals','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-sortitions','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-surveys','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-system','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-verifications','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-module-decidim_awesome-696b119d4396','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-dev','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-module-extra_user_fields-f7c45bf8ae61','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-module-pokecode-923395a61425','/home/elvia/decidim-reus/decidim-module-removable_authorizations','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-2d3a88650b20/decidim-templates','/home/elvia/.rbenv/versions/3.3.10/lib/ruby/gems/3.3.0/bundler/gems/decidim-module-term_customizer-8cd8bafc273b','.'].flatMap(directory => [
     `${directory}/app/views/**/*.html.erb`,
     `${directory}/app/cells/**/*.{rb,erb}`,
     `${directory}/app/helpers/**/*.rb`,
@@ -33,25 +33,28 @@ module.exports = {
       current,
       transparent,
       white,
+      neutral,
       primary: withOpacity("--primary-rgb"),
       secondary: withOpacity("--secondary-rgb"),
       tertiary: withOpacity("--tertiary-rgb"),
-      success: withOpacity("--success-rgb"),
-      alert: withOpacity("--alert-rgb"),
-      warning: withOpacity("--warning-rgb"),
+      success: "#28A745",
+      alert: "#ED1C24",
+      warning: "#FFB703",
       black: "#020203",
       gray: {
         DEFAULT: "#6B7280CC", // 80% opacity
         2: "#3E4C5C",
         3: "#E1E5EF",
         4: "#242424",
-        5: "#F6F8FA"
+        5: "#F6F8FA",
+        6: "#D3D5D9"
       },
       background: {
         DEFAULT: "#F3F4F7",
         2: "#FAFBFC",
         3: "#EFEFEF",
-        4: "#E4EEFF99" // 60% opacity
+        4: "#E4EEFF99", // 60% opacity
+        5: "#E9E9E9"
       }
     },
     container: {
@@ -74,6 +77,11 @@ module.exports = {
       "3xl": ["32px", "40px"],
       "4xl": ["36px", "45px"],
       "5xl": ["48px", "60px"]
+    },
+    extend: {
+      transitionProperty: {
+        'top': 'top',
+      }
     }
   },
   plugins: [require("@tailwindcss/typography")]

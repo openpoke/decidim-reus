@@ -11,7 +11,7 @@ def stub_census_client_for_success
   )
 end
 
-describe "Verification", type: :system do
+describe "Verification" do
   let(:organization) { create(:organization, available_authorizations: ["census_authorization_handler"], extra_user_fields:) }
   let(:extra_user_fields) do
     {
@@ -30,9 +30,7 @@ describe "Verification", type: :system do
     fill_in "authorization_handler[document_number]", with: document_number
     fill_in :authorization_handler_date_of_birth, with: date_of_birth
 
-    if options[:with_custom_fields]
-      fill_in "authorization_handler[telephone_number_custom]", with: "999 456 789"
-    end
+    fill_in "authorization_handler[telephone_number_custom]", with: "999 456 789" if options[:with_custom_fields]
   end
 
   before do
@@ -43,7 +41,6 @@ describe "Verification", type: :system do
   end
 
   context "when user is registered in census" do
-
     before { stub_census_client_for_success }
 
     describe "when telephone number is missing" do
@@ -59,7 +56,7 @@ describe "Verification", type: :system do
         user.reload
 
         expect(user.extended_data["phone_number"]).to eq(telephone_number)
-        expect(::Decidim::Authorization.exists?(decidim_user_id: user.id)).to be_truthy
+        expect(Decidim::Authorization).to exist(decidim_user_id: user.id)
       end
     end
 
@@ -77,7 +74,7 @@ describe "Verification", type: :system do
         user.reload
 
         expect(user.extended_data["phone_number"]).to be_blank
-        expect(::Decidim::Authorization.exists?(decidim_user_id: user.id)).to be_falsey
+        expect(Decidim::Authorization).not_to exist(decidim_user_id: user.id)
       end
     end
 
@@ -100,14 +97,12 @@ describe "Verification", type: :system do
         user.reload
 
         expect(user.extended_data["phone_number"]).to eq(telephone_number)
-        expect(::Decidim::Authorization.exists?(decidim_user_id: user.id)).to be_truthy
+        expect(Decidim::Authorization).to exist(decidim_user_id: user.id)
       end
     end
-
   end
 
   context "when user is not registered in census" do
-
     before { allow(CensusClient).to(receive(:make_request).and_return(CensusResponse.new(code: "5"))) }
 
     it "rejects the authorization and does not update custom fields" do
@@ -122,9 +117,8 @@ describe "Verification", type: :system do
       user.reload
 
       expect(user.extended_data["phone_number"]).to be_nil
-      expect(::Decidim::Authorization.exists?(decidim_user_id: user.id)).to be_falsey
+      expect(Decidim::Authorization).not_to exist(decidim_user_id: user.id)
     end
-
   end
 
   context "when there is another user authorized with the same data" do
@@ -146,9 +140,8 @@ describe "Verification", type: :system do
       expect(page).to have_content("Tracta d'entrar com a usuari amb aquest compte.")
       expect(page).to have_content("Si encara tens problemes posa't en contacte amb un administrador via email (info.participacio@reus.cat) o telefònica (977.010.029)")
 
-      expect(::Decidim::Authorization.exists?(decidim_user_id: user.id)).to be_falsey
+      expect(Decidim::Authorization).not_to exist(decidim_user_id: user.id)
     end
-
   end
 
   context "when there is a managed user authorized with the same data" do
@@ -169,8 +162,7 @@ describe "Verification", type: :system do
       expect(page).to have_content("Ja s'ha verificat un usuari amb aquest document d'identificació. Està associada a un compte administrat amb nom Har******ter")
       expect(page).to have_content("Posa't en contacte amb un administrador via email (info.participacio@reus.cat) o telefònica (977.010.029) per promocionar el compte original i poder participar")
 
-      expect(::Decidim::Authorization.exists?(decidim_user_id: user.id)).to be_falsey
+      expect(Decidim::Authorization).not_to exist(decidim_user_id: user.id)
     end
   end
-
 end

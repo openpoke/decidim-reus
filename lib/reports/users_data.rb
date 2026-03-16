@@ -1,4 +1,4 @@
-#frozen_string_literal: true
+# frozen_string_literal: true
 
 CSV.open("decidim_users.csv", "wb") do |csv|
   csv << %w(nombre email verificado teléfono)

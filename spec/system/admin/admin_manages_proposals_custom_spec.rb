@@ -3,12 +3,10 @@
 require "spec_helper"
 require "rails_helper"
 
-require "#{Gem.loaded_specs['decidim-proposals'].full_gem_path}/lib/decidim/proposals/test/factories"
+require "#{Gem.loaded_specs["decidim-proposals"].full_gem_path}/lib/decidim/proposals/test/factories"
 
-describe "Admin manages proposals", type: :system do
-
+describe "Admin manages proposals" do
   # base
-  let(:organization) { create(:organization) }
   let(:organization) { create(:organization, extra_user_fields:) }
   let(:extra_user_fields) do
     {
@@ -31,10 +29,9 @@ describe "Admin manages proposals", type: :system do
            manifest: Decidim.find_component_manifest("proposals"),
            participatory_space: participatory_process)
   end
-  let!(:proposal) { create :proposal, component: component, users: [user] }
+  let!(:proposal) { create(:proposal, component: component, users: [user]) }
 
   context "when previewing proposals" do
-
     it "shows author contact info" do
       switch_to_host(organization.host)
 
@@ -42,9 +39,9 @@ describe "Admin manages proposals", type: :system do
 
       visit manage_component_path(component)
 
-      assert page.has_content? "Contacte"
-      assert page.has_content? phone_number
-      assert page.has_content? user.name
+      expect(page).to have_content("Contacte")
+      expect(page).to have_content(phone_number)
+      expect(page).to have_content(user.name)
     end
   end
 end

@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class CustomAttributeObfuscator < Decidim::RemovableAuthorizations::AttributeObfuscator
-
-  def self.document_number(value, success = true)
+  def self.document_number(value, success: true)
     if success
       obfuscate(1, 2, value)
     else
@@ -10,7 +9,7 @@ class CustomAttributeObfuscator < Decidim::RemovableAuthorizations::AttributeObf
     end
   end
 
-  def self.email(full_email, success = true)
+  def self.email(full_email, success: true)
     return nil unless full_email.present? && full_email.include?("@")
 
     segments = full_email.split("@")
@@ -26,5 +25,4 @@ class CustomAttributeObfuscator < Decidim::RemovableAuthorizations::AttributeObf
 
     "#{obfuscated_local_part}@#{segments.second}"
   end
-
 end

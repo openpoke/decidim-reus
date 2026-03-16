@@ -4,7 +4,6 @@ require "census_client"
 require "custom_attribute_obfuscator"
 
 class CensusAuthorizationHandler < Decidim::AuthorizationHandler
-
   include Decidim::HumanizeBooleansHelper
 
   attribute :document_number, String
@@ -20,10 +19,10 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
     if: :phone_number_format?
   )
   validate :user_exists_in_census # must be declared as the last validation so custom
-                                  # fields are not saved unless census call succeeds
+  # fields are not saved unless census call succeeds
 
   def self.from_params(params, additional_params = {})
-    instance = super(params, additional_params)
+    instance = super
 
     params_hash = hash_from(params)
 
@@ -55,7 +54,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   private
 
   def phone_number_format?
-    return unless phone_number?
+    return false unless phone_number?
 
     organization.extra_user_field_configuration(:phone_number)["pattern"].present?
   end
@@ -95,13 +94,13 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
     }
   end
 
-  def self.build_unique_id(document_number, birth_date)
+  def self.build_unique_id(document_number, birth_date) # rubocop:disable Lint/IneffectiveAccessModifier
     Digest::MD5.hexdigest(
       "#{document_number}-#{format_birthdate(birth_date)}-#{Rails.application.secrets.secret_key_base}"
     )
   end
 
-  def self.format_birthdate(date)
+  def self.format_birthdate(date) # rubocop:disable Lint/IneffectiveAccessModifier
     date.strftime("%d/%m/%Y") if date.present?
   end
 
@@ -111,11 +110,10 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
     else
       other_user = duplicate.user
 
-      """
-      Està empadronat, però hi ha #{other_user.managed ? 'un compte administrat' : 'un altre usuari'} verificat amb les mateixes dades
+      "
+      Està empadronat, però hi ha #{other_user.managed ? "un compte administrat" : "un altre usuari"} verificat amb les mateixes dades
       (nom: #{Decidim::RemovableAuthorizations::AttributeObfuscator.name_hint(other_user.name)}, email: #{CustomAttributeObfuscator.email(other_user.email)})
-      """
+      "
     end
   end
-
 end

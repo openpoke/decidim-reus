@@ -121,7 +121,7 @@ describe "Registration" do
       let(:password) { "decidim123456789" }
 
       it "does not require password change straight away" do
-        expect(page).not_to have_content("Canvia la meva contrasenya")
+        expect(page).to have_no_content("Canvia la meva contrasenya")
       end
     end
   end

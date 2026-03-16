@@ -12,7 +12,7 @@ require "capistrano/rails/migrations"
 require "capistrano/passenger"
 require "capistrano/rbenv"
 require "capistrano/sidekiq"
-require 'capistrano/nvm'
+require "capistrano/nvm"
 
 # TODO
 # install_plugin Capistrano::Sidekiq  # Default sidekiq tasks

@@ -41,7 +41,7 @@ module Decidim
         end
 
         def destroy_authorization
-          Decidim.traceability.perform_action!("delete", authorization, current_user, extra: { authorization_owner: {id: user.id }}) do
+          Decidim.traceability.perform_action!("delete", authorization, current_user, extra: { authorization_owner: { id: user.id } }) do
             authorization.destroy
           end
         end
