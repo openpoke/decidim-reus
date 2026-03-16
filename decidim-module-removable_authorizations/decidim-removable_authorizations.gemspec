@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email = ["eduardomech@gmail.com"]
   s.license = "AGPL-3.0"
   s.homepage = "https://github.com/decidim/decidim-module-removable_authorizations"
-  s.required_ruby_version = ">= 2.5"
+  s.required_ruby_version = ">= 3.3"
 
   s.name = "decidim-removable_authorizations"
   s.summary = "A decidim removable_authorizations module"
