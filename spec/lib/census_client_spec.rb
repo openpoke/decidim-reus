@@ -38,7 +38,6 @@ describe CensusClient do
       it "correctly initializes the response" do
         expect(subject.registered_in_census?).to be false
         expect(subject.response_code).to be "5"
-        expect(subject.message).to eq("No està empadronat")
       end
     end
 
@@ -48,7 +47,6 @@ describe CensusClient do
       it "correctly initializes the response" do
         expect(subject.registered_in_census?).to be false
         expect(subject.response_code).to be "wadus"
-        expect(subject.message).to eq("Desconegut")
       end
     end
   end

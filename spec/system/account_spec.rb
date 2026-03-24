@@ -4,9 +4,9 @@ require "spec_helper"
 require "rails_helper"
 
 describe "Account" do
-  let(:user) { create(:user, :confirmed, password: password, password_confirmation: password) }
+  let(:organization) { create(:organization, available_locales: [:ca], default_locale: :ca) }
+  let(:user) { create(:user, :confirmed, password: password, password_confirmation: password, organization: organization) }
   let(:password) { "dqCFgjfDbC7dPbrv" }
-  let(:organization) { user.organization }
 
   before do
     switch_to_host(organization.host)

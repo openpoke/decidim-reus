@@ -12,7 +12,7 @@ def fill_registration_form
 end
 
 describe "Registration" do
-  let(:organization) { create(:organization) }
+  let(:organization) { create(:organization, available_locales: [:ca], default_locale: :ca) }
 
   before do
     switch_to_host(organization.host)
@@ -23,7 +23,7 @@ describe "Registration" do
   context "when signing up" do
     describe "on first sight" do
       it "shows fields empty" do
-        expect(page).to have_content("Crea un compte per poder participar")
+        expect(page).to have_content("Crea un compte per participar en la plataforma.")
         expect(page).to have_field("registration_user_name", with: "")
         expect(page).to have_field("registration_user_email", with: "")
         expect(page).to have_field("registration_user_password", with: "")

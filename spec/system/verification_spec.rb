@@ -12,7 +12,7 @@ def stub_census_client_for_success
 end
 
 describe "Verification" do
-  let(:organization) { create(:organization, available_authorizations: ["census_authorization_handler"], extra_user_fields:) }
+  let(:organization) { create(:organization, available_authorizations: ["census_authorization_handler"], extra_user_fields:, available_locales: [:ca], default_locale: :ca) }
   let(:extra_user_fields) do
     {
       "enabled" => true,

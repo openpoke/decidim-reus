@@ -7,7 +7,7 @@ require "#{Gem.loaded_specs["decidim-proposals"].full_gem_path}/lib/decidim/prop
 
 describe "Admin manages proposals" do
   # base
-  let(:organization) { create(:organization, extra_user_fields:) }
+  let(:organization) { create(:organization, extra_user_fields:, available_locales: [:ca], default_locale: :ca) }
   let(:extra_user_fields) do
     {
       "enabled" => true,

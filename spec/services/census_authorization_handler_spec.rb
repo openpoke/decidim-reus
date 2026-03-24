@@ -70,7 +70,7 @@ describe CensusAuthorizationHandler do
 
   describe "unique_id" do
     it "is correctly constructed" do
-      expected_unique_id = Digest::MD5.hexdigest("12345678-17/09/1987-#{Rails.application.secrets.secret_key_base}")
+      expected_unique_id = Digest::MD5.hexdigest("12345678-17/09/1987-#{Rails.application.secret_key_base}")
       expect(subject.unique_id).to eq(expected_unique_id)
     end
 

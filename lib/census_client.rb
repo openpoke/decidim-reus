@@ -16,7 +16,7 @@ class CensusClient
 
     Rails.logger.info "[Census WS] Sending request with message: #{obfuscated_message(message)}"
 
-    if (Rails.ENV["STAGING"].present? || Rails.env.development?) && original_document_number.include?("#")
+    if (Rails.env.staging? || Rails.env.development?) && original_document_number.include?("#") # rubocop:disable Rails/UnknownEnv
       # Try 12345678#315
       response_code = original_document_number.split("#").last
     else

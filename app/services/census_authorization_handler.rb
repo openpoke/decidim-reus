@@ -96,7 +96,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
 
   def self.build_unique_id(document_number, birth_date) # rubocop:disable Lint/IneffectiveAccessModifier
     Digest::MD5.hexdigest(
-      "#{document_number}-#{format_birthdate(birth_date)}-#{Rails.application.secrets.secret_key_base}"
+      "#{document_number}-#{format_birthdate(birth_date)}-#{Rails.application.secret_key_base}"
     )
   end
 

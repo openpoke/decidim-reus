@@ -4,7 +4,7 @@ require "spec_helper"
 require "rails_helper"
 
 describe "Account" do
-  let(:organization) { create(:organization, extra_user_fields:) }
+  let(:organization) { create(:organization, extra_user_fields:, available_locales: [:ca], default_locale: :ca) }
   let(:extra_user_fields) do
     {
       "enabled" => true,
