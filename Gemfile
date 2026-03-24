@@ -20,6 +20,7 @@ gem "decidim-trusted_ids", github: "ConsorciAOC-PRJ/decidim-module-trusted-ids",
 gem "bootsnap", "~> 1.7"
 gem "progressbar"
 gem "puma", ">= 6.3"
+gem "savon"
 
 group :development, :test do
   gem "bcrypt_pbkdf", ">= 1.0", "< 2.0"
