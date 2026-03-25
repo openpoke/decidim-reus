@@ -34,7 +34,6 @@ group :development, :test do
   gem "capistrano-sidekiq"
   gem "decidim-dev", DECIDIM_VERSION
   gem "ed25519", ">= 1.2", "< 2.0"
-  gem "faker", "~> 3.3.1"
 end
 
 group :development do
