@@ -59,15 +59,15 @@ describe "Account" do
       let(:new_password) { "decidim1234567890" }
 
       before do
-        click_button "Canvia la contrasenya"
+        click_on "Canvia la contrasenya"
       end
 
       it "toggles old and new password fields" do
         within "form.edit_user" do
-          expect(page).to have_content("no ha de ser massa comú (per exemple 123456) i ha de ser diferent del teu àlies i la teva adreça de correu electrònic")
+          expect(page).to have_content("no han de ser massa comuns (p. ex. 123456)")
           expect(page).to have_field("user[password]", with: "", type: "password")
           expect(page).to have_field("user[old_password]", with: "", type: "password")
-          click_button "Canvia la contrasenya"
+          click_on "Canvia la contrasenya"
           expect(page).to have_no_field("user[password]", with: "", type: "password")
           expect(page).to have_no_field("user[old_password]", with: "", type: "password")
         end
