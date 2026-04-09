@@ -1,43 +1,49 @@
 {
   "name": "app",
   "private": true,
+  "scripts": {
+    "markdownlint": "markdownlint '*.md'",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint --no-error-on-unmatched-pattern --ignore-pattern app/packs/vendor --ext .js app/packs",
+    "lint-fix": "eslint -c .eslintrc.json --ext .js app/packs/ --fix",
+    "stylelint": "stylelint app/packs/**/*.scss",
+    "stylelint-fix": "stylelint **/*.scss --fix"
+  },
+  "stylelint": {
+    "extends": "@decidim/stylelint-config"
+  },
+  "eslintConfig": {
+    "extends": "@decidim/eslint-config",
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    }
+  },
   "dependencies": {
     "@decidim/browserslist-config": "file:packages/browserslist-config",
     "@decidim/core": "file:packages/core",
     "@decidim/webpacker": "file:packages/webpacker",
-    "@rails/actioncable": "^6.1.710",
     "codemirror": "^5.65.19",
-    "europa": "^4.0.0",
+    "core-js": "^3.46.0",
     "form-storage": "^1.3.5",
     "formBuilder": "^3.19.13",
     "highlight.js": "^11.11.1",
-    "inline-attacher": "^0.0.7",
-    "inline-attachment": "^2.0.3",
-    "inscrybmde": "^1.11.6",
-    "jquery-ui": "^1.13.2",
+    "inline-attacher": "^0.0.8",
     "jsrender": "^1.0.15",
     "leaflet.featuregroup.subgroup": "^1.0.2",
-    "marked": "^5.1.2",
-    "tom-select": "^2.2.2"
+    "tom-select": "^2.4.3"
   },
   "version": "0.1.0",
+  "browserslist": [
+    "extends @decidim/browserslist-config"
+  ],
   "devDependencies": {
     "@decidim/dev": "file:packages/dev",
     "@decidim/eslint-config": "file:packages/eslint-config",
     "@decidim/prettier-config": "file:packages/prettier-config",
     "@decidim/stylelint-config": "file:packages/stylelint-config",
     "@tarekraafat/autocomplete.js": "^10.2.7",
-    "postcss-import": "^15.1.0",
-    "postcss-scss": "^4.0.9",
-    "sass-embedded": "~1.57.1",
     "shakapacker": "^8.3.0"
-  },
-  "browserslist": [
-    "extends @decidim/browserslist-config"
-  ],
-  "engines": {
-    "node": "22.14.0",
-    "yarn": "1.22.19",
-    "npm": ">=9.6.7"
   }
 }

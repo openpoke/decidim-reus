@@ -44,7 +44,7 @@ jobs:
           fetch-depth: 1
 
       - name: Install GraphicsMagick
-        run: sudo apt-get update; sudo apt-get -f install wkhtmltopdf imagemagick
+        run: sudo apt-get update; sudo apt-get -f install imagemagick
 
       - uses: ruby/setup-ruby@v1
         with:
