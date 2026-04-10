@@ -1189,6 +1189,7 @@ DEPENDENCIES
   decidim-templates!
   decidim-term_customizer!
   decidim-trusted_ids!
+  deface
   ed25519 (>= 1.2, < 2.0)
   letter_opener_web
   listen

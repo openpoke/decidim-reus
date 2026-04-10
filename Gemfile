@@ -16,6 +16,7 @@ gem "decidim-term_customizer", github: "openpoke/decidim-module-term_customizer"
 gem "decidim-trusted_ids", github: "ConsorciAOC-PRJ/decidim-module-trusted-ids", branch: "upgrade-0.31"
 
 gem "bootsnap", "~> 1.7"
+gem "deface"
 gem "progressbar"
 gem "puma", ">= 6.3"
 gem "savon"
