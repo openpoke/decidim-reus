@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-lock "3.18.1"
+lock "3.20"
 
 set :application, "decidim"
-set :repo_url, "https://github.com/AjuntamentdeReus/decidim.git"
+set :repo_url, "https://github.com/openpoke/decidim-reus.git"
 set :linked_files, fetch(:linked_files, []).push(*%w(
                                                    config/database.yml
                                                    .rbenv-vars
@@ -34,20 +34,11 @@ set :nvm_path, "/var/lib/nvm/"
 set :nvm_node, "v22.14.0" # tls
 set :keep_releases, 10
 
+set :ssh_options, { keys: %w(~/.ssh/id_rsa), forward_agent: true, auth_methods: %w(publickey) }
+
 Rake::Task["deploy:compile_assets"].clear
 
 namespace :deploy do
-  desc "Pre-compile Deface overrides into templates"
-  task :precompile do
-    on roles(:app) do
-      within release_path do
-        with rails_env: fetch(:rails_env), deface_enabled: true do
-          execute :rake, "deface:precompile"
-        end
-      end
-    end
-  end
-
   desc "Compile assets"
   task :compile_assets => [:set_rails_env] do
     invoke "deploy:install_dependencies"
@@ -56,8 +47,10 @@ namespace :deploy do
 
   desc "Install dependencies"
   task :install_dependencies do
-    on roles(:all) do
-      execute "cd #{release_path}; npm install"
+    on roles(:app) do
+      within release_path do
+        execute :npm, "ci"
+      end
     end
   end
 
@@ -72,18 +65,3 @@ namespace :deploy do
     end
   end
 end
-
-namespace :deface do
-  desc "Pre-compile Deface overrides into templates"
-  task :precompile do
-    on roles(:app) do
-      within release_path do
-        with rails_env: fetch(:rails_env), deface_enabled: true do
-          execute :rake, "deface:precompile"
-        end
-      end
-    end
-  end
-end
-
-after "deploy:updated", "deface:precompile"
