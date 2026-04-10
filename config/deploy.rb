@@ -31,7 +31,7 @@ set :passenger_restart_with_touch, true
 set :nvm_type, :system
 set :nvm_node_path, "/var/lib/nvm/versions/node/"
 set :nvm_path, "/var/lib/nvm/"
-set :nvm_node, "v18.17.1" # tls
+set :nvm_node, "v22.14.0" # tls
 set :keep_releases, 10
 
 Rake::Task["deploy:compile_assets"].clear
