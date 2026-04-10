@@ -2,14 +2,14 @@
 
 require "spec_helper"
 
-describe Decidim::AdminLog::UserPresenter, type: :helper do
+describe Decidim::RemovableAuthorizations::AdminLog::UserPresenter, type: :helper do
   subject { presenter }
 
   let(:organization) { create(:organization, available_authorizations: available_authorizations) }
   let(:authorization_handler) { "dummy_authorization_handler" }
   let(:available_authorizations) { [authorization_handler] }
 
-  let(:user) { create :user, name: "Harry Potter" }
+  let(:user) { create(:user, name: "Harry Potter") }
   let(:obfuscated_document_number) { "1*****78X" }
 
   let(:presenter) { described_class.new(action_log, helper) }
@@ -29,7 +29,7 @@ describe Decidim::AdminLog::UserPresenter, type: :helper do
       end
 
       it "shows the authorization details" do
-        expect(subject.present).to match(%r{Harry Potter.*has authorized his\/her account})
+        expect(subject.present).to match(%r{Harry Potter.*has authorized his/her account})
 
         expect(subject.present).to include("Handler name")
         expect(subject.present).to include(authorization_handler)
@@ -45,7 +45,7 @@ describe Decidim::AdminLog::UserPresenter, type: :helper do
       end
 
       it "shows the authorization details" do
-        expect(subject.present).to match(%r{Harry Potter.*could not authorize his\/her account})
+        expect(subject.present).to match(%r{Harry Potter.*could not authorize his/her account})
 
         expect(subject.present).to include("Handler name")
         expect(subject.present).to include(authorization_handler)

@@ -46,7 +46,6 @@ ca:
           captcha_instructions: Empleneu la vostra resposta a continuació usant només caràcters de text, sense números
           official_name_custom_help: Només serà visible pels administradors. Utilitzat per a realitzar les comunicacions oficials.
           telephone_number_custom_help: Només serà visible pels administradors. Utilitzat per a realitzar les comunicacions oficials.
-          textcaptcha_answer: Resposta amb caràcters només textuals no numèrics
     extra_user_fields:
       interests:
         associative_network: Teixit associatiu

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class CensusResponse
-
   attr_accessor(
     :response_code,
     :registered_in_census,
@@ -30,5 +29,4 @@ class CensusResponse
       code
     end
   end
-
 end

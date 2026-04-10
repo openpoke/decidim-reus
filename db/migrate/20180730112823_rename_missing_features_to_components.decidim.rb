@@ -1,6 +1,7 @@
-# This migration comes from decidim (originally 20180613080638)
 # frozen_string_literal: true
 
+# This migration comes from decidim (originally 20180613080638)
+# This file has been modified by `decidim upgrade:migrations` task on 2026-03-16 12:44:40 UTC
 class RenameMissingFeaturesToComponents < ActiveRecord::Migration[5.1]
   class Notification < ApplicationRecord
     self.table_name = :decidim_notifications

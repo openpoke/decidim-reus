@@ -46,7 +46,6 @@ es:
           captcha_instructions: Complete su respuesta a continuación usando caracteres de texto, sin números
           official_name_custom_help: Sólo será visible por los administradores. Utilizado para realizar las comunicaciones oficiales.
           telephone_number_custom_help: Sólo será visible por los administradores. Utilizado para realizar las comunicaciones oficiales.
-          textcaptcha_answer: Respuesta con caracteres sólamente de texto, no numéricos
     extra_user_fields:
       interests:
         associative_network: Tejido asociativo

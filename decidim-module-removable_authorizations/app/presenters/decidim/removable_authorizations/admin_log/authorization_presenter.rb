@@ -41,7 +41,7 @@ module Decidim
 
         # {"user"=>{"ip"=>"192.168.192.161", "name"=>"Admin User", "nickname"=>"admin-user"}
         def user_data
-          @user_data ||= action_log.extra.dig("user")
+          @user_data ||= action_log.extra["user"]
         end
 
         def recipient

@@ -14,7 +14,7 @@ def fill_registration_form(
 end
 
 describe "Registration" do
-  let(:organization) { create(:organization) }
+  let(:organization) { create(:organization, available_locales: [:ca], default_locale: :ca) }
   let!(:terms_of_service_page) { Decidim::StaticPage.find_by(slug: "terms-of-service", organization:) }
 
   before do
@@ -25,7 +25,7 @@ describe "Registration" do
   context "when signing up" do
     describe "on first sight" do
       it "shows fields empty" do
-        expect(page).to have_content("Crea un compte per poder participar")
+        expect(page).to have_content("Crea un compte per participar en la plataforma.")
         expect(page).to have_field("registration_user_name", with: "")
         expect(page).to have_field("registration_user_email", with: "")
         expect(page).to have_field("registration_user_password", with: "")
@@ -121,7 +121,7 @@ describe "Registration" do
       let(:password) { "decidim123456789" }
 
       it "does not require password change straight away" do
-        expect(page).not_to have_content("Canvia la meva contrasenya")
+        expect(page).to have_no_content("Canvia la meva contrasenya")
       end
     end
   end

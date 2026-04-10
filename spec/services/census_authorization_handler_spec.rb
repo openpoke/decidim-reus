@@ -1,16 +1,17 @@
-# coding: utf-8
+# frozen_string_literal: true
 
 require "rails_helper"
 require "decidim/dev/test/authorization_shared_examples"
 
 describe CensusAuthorizationHandler do
-  let(:subject) { handler }
+  subject { handler }
+
   let(:handler) { described_class.from_params(params) }
   let(:document_number) { "12345678" }
   let(:date_of_birth) { Date.civil(1987, 9, 17) }
   let(:user) { create(:user, organization: organization) }
   let(:other_user) { create(:user, organization: organization) }
-  let(:organization) { create :organization }
+  let(:organization) { create(:organization) }
   let(:params) do
     {
       user: user,
@@ -21,14 +22,13 @@ describe CensusAuthorizationHandler do
   let(:official_name) { "Napoleón Bonaparte" }
   let(:telephone_number) { "123456789" }
 
-  it_behaves_like "an authorization handler"
-
   before do
     user.update(official_name_custom: official_name, telephone_number_custom: telephone_number)
-    allow_any_instance_of(Savon::Client).to receive(:call).and_return(
-      OpenStruct.new(body: { padro_decidim_response: { acces: "0" } })
-    )
+    savon_client = instance_double(Savon::Client, call: OpenStruct.new(body: { padro_decidim_response: { acces: "0" } }))
+    allow(Savon::Client).to receive(:new).and_return(savon_client)
   end
+
+  it_behaves_like "an authorization handler"
 
   describe "document_number" do
     context "when it isn't present" do
@@ -70,7 +70,7 @@ describe CensusAuthorizationHandler do
 
   describe "unique_id" do
     it "is correctly constructed" do
-      expected_unique_id = Digest::MD5.hexdigest("12345678-17/09/1987-#{Rails.application.secrets.secret_key_base}")
+      expected_unique_id = Digest::MD5.hexdigest("12345678-17/09/1987-#{Rails.application.secret_key_base}")
       expect(subject.unique_id).to eq(expected_unique_id)
     end
 
@@ -96,17 +96,16 @@ describe CensusAuthorizationHandler do
         handler_params.merge(user: other_user)
       )
 
-      expect(second_handler).to_not be_valid
+      expect(second_handler).not_to be_valid
 
       Decidim::Verifications::AuthorizeUser.call(second_handler, organization) do
         on(:ok) do
           Decidim::Authorization.create_or_update_from(second_handler)
         end
-        on(:invalid) {}
+        on(:invalid) {} # rubocop:disable Lint/EmptyBlock
       end
 
       expect(Decidim::Authorization.count).to eq 1
     end
   end
-
 end

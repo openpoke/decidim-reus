@@ -1,0 +1,30 @@
+<!-- insert_after ".mini-footer" -->
+
+<div class="main-footer__down bg-white text-sm justify-between border-none" style="padding-top: 1.25rem; padding-bottom: 1.25rem;">
+  <div>
+    <a rel="decidim noopener noreferrer" href="https://www.reus.cat/" target="_blank" data-external-link="text-only">
+      <%= image_pack_tag("media/images/logo-ajreus-black.png", alt: "Logo Ajuntament Reus", class: "max-h-8 block") %>
+    </a>
+  </div>
+  <div>
+    <div class="text-sm text-black">
+      <span>
+        Plaça del Mercadal · 43201 Reus 
+      </span>
+      <span>|</span>
+      <span>
+        <a href="tel:977010010" title="telèfon de l'Ajuntament de Reus">977 010 010</a>
+      </span>
+      <span>|</span>
+      <span>
+        <a href="mailto:ajuntament@reus.cat" title="correu electrònic de l'Ajuntament de Reus">ajuntament@reus.cat</a> 
+      </span>
+      <span>|</span>
+      <span>
+        <a rel="decidim noopener noreferrer" href="https://www.reus.cat/" target="_blank" data-external-link="text-only">
+          reus.cat
+        </a>
+    </span>
+    </div>
+  </div>
+</div>
