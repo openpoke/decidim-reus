@@ -1,6 +1,7 @@
-# This migration comes from decidim_comments (originally 20170510091348)
 # frozen_string_literal: true
 
+# This migration comes from decidim_comments (originally 20170510091348)
+# This file has been modified by `decidim upgrade:migrations` task on 2026-03-16 12:44:40 UTC
 class UpdateRootCommentableForComments < ActiveRecord::Migration[5.0]
   def up
     # rubocop:disable Rails/SkipsModelValidations
@@ -21,6 +22,7 @@ class UpdateRootCommentableForComments < ActiveRecord::Migration[5.0]
 
   def root_commentable(comment)
     return comment.commentable if comment.depth.zero?
+
     root_commentable comment.commentable
   end
 end

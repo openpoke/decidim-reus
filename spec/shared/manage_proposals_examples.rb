@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Copied from https://github.com/decidim/decidim/blob/master/decidim-proposals/spec/shared/manage_proposals_examples.rb
 
 shared_examples "manage proposals" do
@@ -14,13 +15,12 @@ shared_examples "manage proposals" do
 
   context "when previewing proposals" do
     it "allows the user to preview the proposal" do
-      within find("tr", text: proposal.title) do
+      within "tr", text: proposal.title do
         klass = "action-icon--preview"
         href = resource_locator(proposal).path
         target = "blank"
 
-        expect(page).to have_selector(
-          :xpath,
+        expect(page).to have_xpath(
           "//a[contains(@class,'#{klass}')][@href='#{href}'][@target='#{target}']"
         )
       end
@@ -113,7 +113,7 @@ shared_examples "manage proposals" do
           end
 
           context "when the process scope has a child scope" do
-            let!(:child_scope) { create :scope, parent: scope }
+            let!(:child_scope) { create(:scope, parent: scope) }
 
             it "can be related to a scope" do
               click_link "New proposal"
@@ -196,7 +196,7 @@ shared_examples "manage proposals" do
             expect(page).to have_admin_callout("successfully")
 
             visit resource_locator(Decidim::Proposals::Proposal.last).path
-            expect(page).to have_selector("img[src*=\"city.jpeg\"]", count: 1)
+            expect(page).to have_css("img[src*=\"city.jpeg\"]", count: 1)
           end
         end
       end
@@ -274,7 +274,7 @@ shared_examples "manage proposals" do
 
         expect(page).to have_admin_callout("Proposal successfully answered")
 
-        within find("tr", text: proposal.title) do
+        within "tr", text: proposal.title do
           expect(page).to have_content("Rejected")
         end
       end
@@ -289,7 +289,7 @@ shared_examples "manage proposals" do
 
         expect(page).to have_admin_callout("Proposal successfully answered")
 
-        within find("tr", text: proposal.title) do
+        within "tr", text: proposal.title do
           expect(page).to have_content("Accepted")
         end
       end
@@ -304,7 +304,7 @@ shared_examples "manage proposals" do
 
         expect(page).to have_admin_callout("Proposal successfully answered")
 
-        within find("tr", text: proposal.title) do
+        within "tr", text: proposal.title do
           expect(page).to have_content("Evaluating")
         end
       end
@@ -320,7 +320,7 @@ shared_examples "manage proposals" do
 
         visit_component_admin
 
-        within find("tr", text: proposal.title) do
+        within "tr", text: proposal.title do
           expect(page).to have_content("Rejected")
         end
 
@@ -333,7 +333,7 @@ shared_examples "manage proposals" do
 
         expect(page).to have_admin_callout("Proposal successfully answered")
 
-        within find("tr", text: proposal.title) do
+        within "tr", text: proposal.title do
           expect(page).to have_content("Accepted")
         end
       end
@@ -353,7 +353,7 @@ shared_examples "manage proposals" do
       it "cannot answer a proposal" do
         visit current_path
 
-        within find("tr", text: proposal.title) do
+        within "tr", text: proposal.title do
           expect(page).to have_no_link("Answer")
         end
       end
@@ -368,7 +368,7 @@ shared_examples "manage proposals" do
     it "cannot answer a proposal" do
       visit current_path
 
-      within find("tr", text: proposal.title) do
+      within "tr", text: proposal.title do
         expect(page).to have_no_link("Answer")
       end
     end
@@ -389,7 +389,7 @@ shared_examples "manage proposals" do
       visit current_path
 
       within "thead" do
-        expect(page).not_to have_content("VOTES")
+        expect(page).to have_no_content("VOTES")
       end
     end
   end
@@ -415,10 +415,10 @@ shared_examples "manage proposals" do
   end
 
   def go_to_edit_answer(proposal)
-    within find("tr", text: proposal.title) do
+    within "tr", text: proposal.title do
       click_link "Answer"
     end
 
-    expect(page).to have_selector(".edit_proposal_answer")
+    expect(page).to have_css(".edit_proposal_answer")
   end
 end

@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 # This script anonymizes the users defined by an scope
 
 scope = Decidim::User.where("email LIKE '%@mail.ru'")
-puts "Anonymizing #{scope.count} users"
+Rails.logger.debug { "Anonymizing #{scope.count} users" }
 
 scope.find_each do |user|
-  user.update_columns(
+  user.update(
     email: "user-#{user.id}@reus-anonymized-user.com",
     name: "Anonymized User #{user.id}",
     telephone_number_custom: "123456789",

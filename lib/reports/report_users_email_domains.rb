@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This script runs a report on users table and prints the top 20 domains
 # of user email addresses.
 
@@ -10,7 +12,7 @@ Decidim::User.find_each do |user|
   report[domain] += 1
 end
 
-puts "- Total users: #{Decidim::User.count}"
-report.sort{ |b,a| a.last <=> b.last }[0...20].each do |domain, count|
-  puts "- #{domain}: #{count}"
+Rails.logger.debug { "- Total users: #{Decidim::User.count}" }
+report.sort { |b, a| a.last <=> b.last }[0...20].each do |domain, count|
+  Rails.logger.debug "- #{domain}: #{count}"
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
-# This migration comes from decidim_meetings (originally 20230427105701)
 
+# This migration comes from decidim_meetings (originally 20230427105701)
+# This file has been modified by `decidim upgrade:migrations` task on 2026-03-16 12:44:41 UTC
 class ChangeTypesAndRegistrationTypesOnMeetings < ActiveRecord::Migration[6.1]
   class Meeting < ApplicationRecord
     self.table_name = :decidim_meetings_meetings
@@ -32,8 +33,8 @@ class ChangeTypesAndRegistrationTypesOnMeetings < ActiveRecord::Migration[6.1]
     rename_column :decidim_meetings_meetings, :type_of_meeting, :old_type_of_meeting
     rename_column :decidim_meetings_meetings, :registration_type, :old_registration_type
 
-    add_column :decidim_meetings_meetings, :type_of_meeting, :string, default: nil
-    add_column :decidim_meetings_meetings, :registration_type, :string, default: nil
+    add_column :decidim_meetings_meetings, :type_of_meeting, :string, default: null
+    add_column :decidim_meetings_meetings, :registration_type, :string, default: null
 
     Meeting.reset_column_information
 

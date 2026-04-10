@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module Decidim
   module RemovableAuthorizations
     module AdminLog
       module UserPresenterOverrides
         def action_string
           case action
-          when "grant_id_documents_offline_verification", "invite", "officialize", "remove_from_admin", "unofficialize", "create_authorization_success", "create_authorization_error"
+          when "grant_id_documents_offline_verification", "invite", "officialize", "remove_from_admin", "unofficialize", "create_authorization_success", "create_authorization_error" # rubocop:disable Layout/LineLength
             "decidim.admin_log.user.#{action}"
           else
             super
@@ -42,13 +44,13 @@ module Decidim
 
         def authorization_changeset
           changeset_list = action_log.extra.symbolize_keys
-            .except(:component, :participatory_space, :resource, :user) # Don't display extra_data added by ActionLogger
-            .map { |k, v| [k, [nil, v]] }
-          original_changeset = Hash[changeset_list]
+                                     .except(:component, :participatory_space, :resource, :user) # Don't display extra_data added by ActionLogger
+                                     .map { |k, v| [k, [nil, v]] }
+          original_changeset = changeset_list.to_h
 
-          fields_mapping = Hash[original_changeset.map do |k, v|
-            [k, authorization_changeset_attribute_type(v.second)]
-          end]
+          fields_mapping = original_changeset.transform_values do |v|
+            authorization_changeset_attribute_type(v.second)
+          end
 
           [original_changeset, fields_mapping]
         end

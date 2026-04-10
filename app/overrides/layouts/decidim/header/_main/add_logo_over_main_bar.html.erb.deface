@@ -1,0 +1,23 @@
+<!-- insert_before "#main-bar" -->
+
+<div class="custom-header">
+  <div class="container">
+    <div class="custom-header__logo">
+      <a rel="decidim noopener noreferrer" href="https://www.reus.cat/" target="_blank" data-external-link="text-only">
+        <%= image_pack_tag("media/images/logo-aj-reus.png", alt: "Logo Ajuntament Reus") %>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .custom-header {
+    background-color: black;
+    padding: 1.25rem 0;
+  }
+
+  .custom-header__logo img {
+    width: auto;
+    height: 37px;
+  }
+</style>

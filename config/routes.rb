@@ -1,14 +1,7 @@
-require "sidekiq/web"
+# frozen_string_literal: true
 
 Rails.application.routes.draw do
-
-  if Rails.env.development? || Rails.env.staging?
-    mount LetterOpenerWeb::Engine, at: "/letter_opener"
-  end
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 
   mount Decidim::Core::Engine => "/"
-
-  authenticate :user, ->(user) { user.admin } do
-    mount Sidekiq::Web => '/admin/sidekiq'
-  end
 end

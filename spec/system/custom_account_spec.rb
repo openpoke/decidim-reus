@@ -3,8 +3,8 @@
 require "spec_helper"
 require "rails_helper"
 
-describe "Account", type: :system do
-  let(:organization) { create(:organization, extra_user_fields:) }
+describe "Account" do
+  let(:organization) { create(:organization, extra_user_fields:, available_locales: [:ca], default_locale: :ca) }
   let(:extra_user_fields) do
     {
       "enabled" => true,
@@ -48,9 +48,9 @@ describe "Account", type: :system do
 
         visit decidim.account_path
 
-        expect(page).to have_selector("input[value='Normal User Name']")
+        expect(page).to have_css("input[value='Normal User Name']")
         assert page.has_content?("User Biography Text")
-        expect(page).to have_selector("input[value='123456789']")
+        expect(page).to have_css("input[value='123456789']")
       end
     end
   end

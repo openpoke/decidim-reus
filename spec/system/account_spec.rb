@@ -3,10 +3,10 @@
 require "spec_helper"
 require "rails_helper"
 
-describe "Account", type: :system do
-  let(:user) { create(:user, :confirmed, password: password, password_confirmation: password) }
+describe "Account" do
+  let(:organization) { create(:organization, available_locales: [:ca], default_locale: :ca) }
+  let(:user) { create(:user, :confirmed, password: password, password_confirmation: password, organization: organization) }
   let(:password) { "dqCFgjfDbC7dPbrv" }
-  let(:organization) { user.organization }
 
   before do
     switch_to_host(organization.host)
@@ -59,17 +59,17 @@ describe "Account", type: :system do
       let(:new_password) { "decidim1234567890" }
 
       before do
-        click_button "Canvia la contrasenya"
+        click_on "Canvia la contrasenya"
       end
 
       it "toggles old and new password fields" do
         within "form.edit_user" do
-          expect(page).to have_content("no ha de ser massa comú (per exemple 123456) i ha de ser diferent del teu àlies i la teva adreça de correu electrònic")
+          expect(page).to have_content("no han de ser massa comuns (p. ex. 123456)")
           expect(page).to have_field("user[password]", with: "", type: "password")
           expect(page).to have_field("user[old_password]", with: "", type: "password")
-          click_button "Canvia la contrasenya"
-          expect(page).not_to have_field("user[password]", with: "", type: "password")
-          expect(page).not_to have_field("user[old_password]", with: "", type: "password")
+          click_on "Canvia la contrasenya"
+          expect(page).to have_no_field("user[password]", with: "", type: "password")
+          expect(page).to have_no_field("user[old_password]", with: "", type: "password")
         end
       end
 
@@ -93,8 +93,8 @@ describe "Account", type: :system do
           expect(page).to have_content("correctament")
         end
         expect(user.reload.encrypted_password).not_to eq(encrypted_password)
-        expect(page).not_to have_field("user[password]", with: "", type: "password")
-        expect(page).not_to have_field("user[old_password]", with: "", type: "password")
+        expect(page).to have_no_field("user[password]", with: "", type: "password")
+        expect(page).to have_no_field("user[old_password]", with: "", type: "password")
       end
     end
 
@@ -111,9 +111,9 @@ describe "Account", type: :system do
 
         it "toggles the current password" do
           expect(page).to have_content("Per tal de confirmar els canvis al teu compte, si us plau, proporciona'ns la teva contrasenya actual.")
-          expect(find("#user_old_password")).to be_visible
+          expect(find_by_id("user_old_password")).to be_visible
           expect(page).to have_content "Contrasenya actual*"
-          expect(page).not_to have_content "Contrasenya*"
+          expect(page).to have_no_content "Contrasenya*"
         end
 
         it "renders the old password with error" do
@@ -152,7 +152,7 @@ describe "Account", type: :system do
 
         it "tells user to confirm new email" do
           expect(page).to have_content("Verificació del canvi de correu electrònic")
-          expect(page).to have_selector("#user_email[disabled='disabled']")
+          expect(page).to have_css("#user_email[disabled='disabled']")
           expect(page).to have_content("Hem enviat un correu a #{pending_email} per a verificar la teva nova adreça de correu electrònic")
         end
 
@@ -178,7 +178,7 @@ describe "Account", type: :system do
           end
 
           expect(page).to have_content("Canvi de correu electrònic cancel·lat amb èxit")
-          expect(page).not_to have_content("Verificació del canvi de correu electrònic")
+          expect(page).to have_no_content("Verificació del canvi de correu electrònic")
           expect(Decidim::User.find(user.id).unconfirmed_email).to be_nil
         end
       end

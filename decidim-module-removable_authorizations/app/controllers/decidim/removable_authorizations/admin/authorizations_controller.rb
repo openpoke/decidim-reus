@@ -10,7 +10,7 @@ module Decidim
         layout "decidim/admin/users"
 
         helper_method :available_authorization_handlers,
-          :other_available_authorizations
+                      :other_available_authorizations
 
         def index
           enforce_permission_to :index, :authorizations

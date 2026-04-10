@@ -1,29 +1,29 @@
-namespace :bootstrap do
+# frozen_string_literal: true
 
+namespace :bootstrap do
   # Invocation: bin/rails bootstrap:import_users['/tmp/fake_users.csv']
 
-  desc 'Import users, create records and send invitations'
+  desc "Import users, create records and send invitations"
 
-  task :import_users, [:csv_file_path] => :environment do |t, args|
+  task :import_users, [:csv_file_path] => :environment do |_t, args|
     path = args[:csv_file_path]
 
-    CSV.foreach(path, { col_sep: ',' }) do |row|
-
-      name = row[0].strip.gsub('-', ' ').split(' ').map { |e| e.capitalize }.join(' ')
+    CSV.foreach(path, { col_sep: "," }) do |row|
+      name = row[0].strip.gsub("-", " ").split.map(&:capitalize).join(" ")
       email = row[1].strip.downcase
 
       if Decidim::User.exists?(email: email)
-        puts '----- Skip user (email exists) ------'
+        puts "----- Skip user (email exists) ------"
         puts "Nombre: #{name}"
         puts "Email: #{email}"
-        puts '-------------------------------------'
+        puts "-------------------------------------"
         next
       end
 
-      puts '------------ Create user ------------'
+      puts "------------ Create user ------------"
       puts "Nombre: #{name}"
       puts "Email: #{email}"
-      puts '-------------------------------------'
+      puts "-------------------------------------"
 
       password = Devise.friendly_token.first(16)
 
@@ -40,5 +40,4 @@ namespace :bootstrap do
       user.send_bootstrap_invitation
     end
   end
-
 end

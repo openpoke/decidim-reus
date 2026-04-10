@@ -1,4 +1,6 @@
-require_relative 'boot'
+# frozen_string_literal: true
+
+require_relative "boot"
 
 require "decidim/rails"
 require "action_cable/engine"
@@ -10,12 +12,12 @@ Bundler.require(*Rails.groups)
 module DecidimApplication
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.1
+    config.load_defaults 7.2
 
     config.i18n.available_locales = %w(ca es en)
     config.i18n.default_locale = :en
     config.i18n.enforce_available_locales = false
-    config.i18n.fallbacks = {ca: [:en], es: [:en]}
+    config.i18n.fallbacks = { ca: [:en], es: [:en] }
 
     config.to_prepare do
       Decidim::Devise::OmniauthRegistrationsController.prepend(Decidim::ExtraUserFields::IncludeExtraData)
