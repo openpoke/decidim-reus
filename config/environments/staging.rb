@@ -19,7 +19,7 @@ Rails.application.configure do
   # Attempt to read encrypted secrets from `config/secrets.yml.enc`.
   # Requires an encryption key in `ENV["RAILS_MASTER_KEY"]` or
   # `config/secrets.yml.key`.
-  config.read_encrypted_secrets = true
+  # config.read_encrypted_secrets = true
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
@@ -89,18 +89,8 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-  # config.action_mailer.smtp_settings = {
-  #   :address        => Rails.application.secrets.smtp_address,
-  #   :port           => Rails.application.secrets.smtp_port,
-  #   :authentication => Rails.application.secrets.smtp_authentication,
-  #   :user_name      => Rails.application.secrets.smtp_username,
-  #   :password       => Rails.application.secrets.smtp_password,
-  #   :domain         => Rails.application.secrets.smtp_domain,
-  #   :enable_starttls_auto => Rails.application.secrets.smtp_starttls_auto,
-  #   :openssl_verify_mode => 'none'
-  # }
 
-  if Rails.application.secrets.sendgrid
+  if ENV["SENDGRID_ENABLED"] == "true"
     config.action_mailer.default_options = {
       "X-SMTPAPI" => {
         filters: {
