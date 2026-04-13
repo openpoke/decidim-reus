@@ -1,2 +1,16 @@
 // Custom theme
 @import "../reus/main";
+
+.login__omniauth-button.login__omniauth-button--valid {
+  background-color: $white !important;
+  @apply inline-flex items-center;
+
+  span {
+    @apply block;
+    color: $black !important;
+  }
+
+  img.icon.external-icon {
+    @apply h-9 w-auto p-0.5 inline-block !important;
+  }
+}

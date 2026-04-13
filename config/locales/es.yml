@@ -41,6 +41,9 @@ es:
             <p>Si sigues teniendo problemas ponte en contacto con un administrador via email (info.participacio@reus.cat) o telefónica (977 010 029).</p>
             "
     devise:
+      shared:
+        links:
+          sign_in_idcat_mobil: Inicia sesión con IdCat Móvil
       registrations:
         new:
           captcha_instructions: Complete su respuesta a continuación usando caracteres de texto, sin números

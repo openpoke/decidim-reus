@@ -1113,8 +1113,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_16_124529) do
     t.string "machine_translation_display_priority", default: "original", null: false
     t.string "external_domain_allowlist", default: [], array: true
     t.boolean "enable_participatory_space_filters", default: true
-    t.jsonb "extra_user_fields", default: {"enabled"=>false}
     t.jsonb "content_security_policy", default: {}
+    t.jsonb "extra_user_fields", default: {"enabled"=>false}
     t.jsonb "name", default: {}, null: false
     t.jsonb "short_name", default: {}, null: false
     t.index ["host"], name: "index_decidim_organizations_on_host", unique: true

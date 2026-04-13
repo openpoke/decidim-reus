@@ -1,0 +1,3 @@
+<!-- replace "span.sr-only" -->
+
+<span><%= t("decidim.devise.shared.links.sign_in_idcat_mobil") %></span>
