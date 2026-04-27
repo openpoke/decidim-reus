@@ -9,6 +9,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   attribute :document_number, String
   attribute :date_of_birth, Date
   attribute :telephone_number_custom, String
+  attribute :controller, String
 
   validates :date_of_birth, presence: true
   validates :document_number, presence: true
@@ -48,6 +49,8 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   end
 
   def phone_number?
+    return false unless controller == "decidim/verifications/authorizations"
+
     extra_user_fields_enabled && organization.activated_extra_field?(:phone_number) && user.extended_data["phone_number"].blank?
   end
 
