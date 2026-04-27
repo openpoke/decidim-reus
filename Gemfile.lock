@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/ConsorciAOC-PRJ/decidim-module-trusted-ids.git
-  revision: 2a7d7a555294f57ed531ddd2fbb59ecfbad4df88
+  revision: 57006141be1be3b7c37dbdfbdf49422a922f6b31
   branch: upgrade-0.31
   specs:
     decidim-trusted_ids (0.11.0)
@@ -11,8 +11,8 @@ GIT
 
 GIT
   remote: https://github.com/decidim-ice/decidim-module-decidim_awesome.git
-  revision: 362ca4cd1109a4144c7b964f9afcd5ad64bdd8a1
-  branch: main
+  revision: 920856640417983eb2f6a8296bc01247edadb47e
+  branch: users_autoblock
   specs:
     decidim-decidim_awesome (0.14.1)
       active_hashcash (~> 0.4.0)
