@@ -1,28 +1,74 @@
-version: '2'
 services:
-  app:
-    build:
-      context: .
-      args:
-        rails_env: development
-    volumes:
-      - .:/code
-    environment:
-      - DATABASE_HOST=pg
-      - DATABASE_USERNAME=postgres
+  traefik:
+    image: traefik:v3.6
+    container_name: traefik
+    command:
+      # - --log.level=DEBUG
+      - --api
+      - --providers.docker=true
+      - --entrypoints.web.address=:80
+      - --entrypoints.traefik.address=:8080
+    restart: unless-stopped
     ports:
-      - 3000:3000
-    links:
-      - pg
-      - redis
-  pg:
-    image: postgres
+      - "80:80"
+      - "443:443"
     volumes:
-      - pg-data:/var/lib/postgresql/data
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.service=api@internal"
+  app:
+    image: ghcr.io/openpoke/decidim-reus:${GIT_REF:-main}
+    volumes:
+      - ./storage:/app/storage
+    restart: ${RESTART_POLICY:-unless-stopped}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.app.entrypoints=web"
+      - "traefik.http.services.app.loadbalancer.server.port=3000"
+      - "traefik.http.middlewares.httpsRedirect.headers.customRequestHeaders.X-Forwarded-Proto=https"
+      - "traefik.http.routers.app.middlewares=httpsRedirect"
+    env_file:
+      - .env
+    environment:
+      - RUN_RAILS=true
+      - RUN_SIDEKIQ=true
+      - DATABASE_URL
+      - SECRET_KEY_BASE
+      - DECIDIM_FORCE_SSL=${DECIDIM_FORCE_SSL:-false}
+      - QUEUE_ADAPTER=${QUEUE_ADAPTER:-sidekiq}
+      - REDIS_URL=${REDIS_URL:-redis://127.0.0.1:6379/0}
+      - WEB_CONCURRENCY=${WEB_CONCURRENCY:-2}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - DECIDIM_ENABLE_HTML_HEADER_SNIPPETS
+      - DECIDIM_ADMIN_PASSWORD_EXPIRATION_DAYS=${DECIDIM_ADMIN_PASSWORD_EXPIRATION_DAYS:-360}
+      - CHANGE_ACTIVE_STEP=${CHANGE_ACTIVE_STEP:-enabled}
+      - SEND_REMINDERS=${SEND_REMINDERS:-enabled}
+      - WEEKLY_NOTIFICATIONS_DIGEST=${WEEKLY_NOTIFICATIONS_DIGEST:-enabled}
+      - DAILY_NOTIFICATIONS_DIGEST=${DAILY_NOTIFICATIONS_DIGEST:-enabled}
+      - HEALTHCHECK_EXCLUDE_CHECKS=${HEALTHCHECK_EXCLUDE_CHECKS:-emailconf}
+      - SMTP_STARTTLS_AUTO=${SMTP_STARTTLS_AUTO:-true}
+      - SMTP_USERNAME
+      - SMTP_PASSWORD
+      - SMTP_ADDRESS
+      - SMTP_DOMAIN
+      - SMTP_PORT
+      - DECIDIM_MAILER_SENDER
+      - MAPS_API_KEY
+      - MAPS_PROVIDER=${MAPS_PROVIDER:-here}
+      - RACK_ATTACK_SECRET
+      - OMNIAUTH_FACEBOOK_APP_ID
+      - OMNIAUTH_FACEBOOK_APP_SECRET
+      - OMNIAUTH_GOOGLE_CLIENT_ID
+      - OMNIAUTH_GOOGLE_CLIENT_SECRET
+    depends_on:
+      - redis
   redis:
+    container_name: redis
     image: redis
     volumes:
-      - redis-data:/data
+      - redis_data:/data
+    restart: ${RESTART_POLICY:-always}
 volumes:
-  pg-data: {}
-  redis-data: {}
+  redis_data:
