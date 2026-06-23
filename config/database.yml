@@ -15,7 +15,9 @@ test:
   database: decidim_reus_test
 
 staging:
+  <<: *default
   url: <%= ENV['DATABASE_URL'] %>
 
 production:
+  <<: *default
   url: <%= ENV['DATABASE_URL'] %>
