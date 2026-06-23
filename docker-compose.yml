@@ -38,7 +38,7 @@ services:
       - SECRET_KEY_BASE
       - DECIDIM_FORCE_SSL=${DECIDIM_FORCE_SSL:-false}
       - QUEUE_ADAPTER=${QUEUE_ADAPTER:-sidekiq}
-      - REDIS_URL=${REDIS_URL:-redis://127.0.0.1:6379/0}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
       - WEB_CONCURRENCY=${WEB_CONCURRENCY:-2}
       - LOG_LEVEL=${LOG_LEVEL:-info}
       - DECIDIM_ENABLE_HTML_HEADER_SNIPPETS
