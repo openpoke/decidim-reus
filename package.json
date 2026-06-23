@@ -32,7 +32,8 @@
     "inline-attacher": "^0.0.8",
     "jsrender": "^1.0.15",
     "leaflet.featuregroup.subgroup": "^1.0.2",
-    "tom-select": "^2.4.3"
+    "tom-select": "^2.4.3",
+    "workbox-webpack-plugin": "^7.4.1"
   },
   "version": "0.1.0",
   "browserslist": [
