@@ -3,20 +3,24 @@ services:
     image: traefik:v3.6
     container_name: traefik
     command:
-      # - --log.level=DEBUG
+      - --log.level=DEBUG
       - --api
+      - --api.insecure=true
       - --providers.docker=true
+      - --providers.docker.exposedbydefault=true
+      - --providers.file.directory=/traefik
       - --entrypoints.web.address=:80
       - --entrypoints.traefik.address=:8080
+      - --entrypoints.websecure.address=:443
     restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - ./traefik:/traefik
+      - ${TRAEFIK_CERTS_DIR}:/certs:ro
     labels:
-      - "traefik.enable=true"
+      - "traefik.enable=false"
       - "traefik.http.routers.traefik.service=api@internal"
+    network_mode: host
   app:
     image: ghcr.io/openpoke/decidim-reus:${GIT_REF:-main}
     volumes:
@@ -25,7 +29,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.app.rule=PathPrefix(`/`)"
-      - "traefik.http.routers.app.entrypoints=web"
+      - "traefik.http.routers.app.entrypoints=web,websecure"
+      - "traefik.http.routers.app.tls=true"
       - "traefik.http.services.app.loadbalancer.server.port=3000"
       - "traefik.http.middlewares.httpsRedirect.headers.customRequestHeaders.X-Forwarded-Proto=https"
       - "traefik.http.routers.app.middlewares=httpsRedirect"
@@ -64,11 +69,15 @@ services:
       - OMNIAUTH_GOOGLE_CLIENT_SECRET
     depends_on:
       - redis
+    network_mode: host
   redis:
     container_name: redis
     image: redis
     volumes:
       - redis_data:/data
     restart: ${RESTART_POLICY:-always}
+    labels:
+      - "traefik.enable=false"
+    network_mode: host
 volumes:
   redis_data:
