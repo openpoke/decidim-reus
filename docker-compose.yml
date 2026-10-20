@@ -19,6 +19,8 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - ./traefik:/traefik
       - ${TRAEFIK_CERTS_DIR}:/certs:ro
+      # Duplicate due to simlinks
+      - ${TRAEFIK_CERTS_DIR}:${TRAEFIK_CERTS_DIR}:ro
     labels:
       - "traefik.enable=false"
       - "traefik.http.routers.traefik.service=api@internal"
